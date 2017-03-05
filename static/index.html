@@ -69,16 +69,21 @@ function drawCircle(context,entity) {
         var x = entity["x"];
         var y = entity["y"];
         //moveTo(x,y);
-        fillStyle = entity["colour"];
-        strokeStyle = fillStyle;
-        lineWidth = 2;
-        // var random_radius = Math.floor(Math.random()*100);
+        // fillStyle = entity["colour"];
+        // strokeStyle = fillStyle;
+        var random_radius = Math.floor((Math.random()*100)+50);
+        var gradient = createLinearGradient(0,0,canvas.width, canvas.height);
+        gradient.addColorStop("0", "pink");
+        gradient.addColorStop("0.5", "purple");
+        gradient.addColorStop("1.0", "blue");
+        strokeStyle = gradient;
 
 
 
-        arc(x, y, (entity["radius"])?entity["radius"]:250, 0, 2.0 * Math.PI, false);  
-        stroke();  
-        fill();                              
+
+        arc(x, y, (entity["radius"])?entity["radius"]:random_radius, 0, 2.0 * Math.PI, false);  
+        stroke();
+        fill()  
     }
 }
 
@@ -95,7 +100,8 @@ function prepEntity(entity) {
 function clearFrame() {
     with(context) {
     moveTo(0,0);
-    fillStyle = "#000";
+    // fillStyle = "#000";
+    gradient = "#000";
     fillRect(0,0,W,H);
     }
 
@@ -257,19 +263,29 @@ mouse = (function() {
     return self;
 })();
 
+
+
 // Add the application specific mouse listeners!
 //XXX: TODO Make these prettier!
+
 mouse.mousedowners.push(function(x,y,clicked,e) {
-    addEntityWithoutName({'x':x,'y':y,'colour':'yellow'});
+    var random_radius = Math.floor((Math.random()*100)+50);
+
+    addEntityWithoutName({'x':x,'y':y,'colour':'yellow', 'radius': random_radius});
 });
 
 mouse.mouseuppers.push(function(x,y,clicked,e) {
-    addEntityWithoutName({'x':x,'y':y,'colour':'red'});
+    var random_radius = Math.floor((Math.random()*5)+10);
+
+    addEntityWithoutName({'x':x,'y':y,'colour':'red', 'radious': random_radius});
 });
 
 mouse.mousedraggers.push(function(x,y,clicked,e) {
+
+    var random_radius = Math.floor((Math.random()*100)+50);
+
     addEntityWithoutName({'x':x,'y':y,'colour':'green','stroke-width' : 3,
-                          'radius':5});
+                          'radius':random_radius});
 });
 
 
